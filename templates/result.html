@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text color */
+            font-family: 'Arial', sans-serif; /* Font style */
+            padding: 20px; /* Padding around body */
+            display: flex; /* Flexbox layout */
+            flex-direction: column; /* Column direction */
+            align-items: center; /* Center align */
+            justify-content: center; /* Center justify */
+            min-height: 100vh; /* Full viewport height */
+        }
+
+        .container {
+            max-width: 800px; /* Maximum width for the container */
+            width: 100%; /* Full width */
+            padding: 20px; /* Padding inside the container */
+            background-color: #1e1e1e; /* Darker container background */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+            text-align: center; /* Centered text */
+        }
+
+        h1, h2 {
+            margin-bottom: 20px; /* Space below headings */
+        }
+
+        video {
+            width: 100%; /* Responsive video */
+            max-width: 640px; /* Set a maximum width */
+            border-radius: 8px; /* Rounded corners */
+            margin-bottom: 20px; /* Space below video */
+        }
+
+        p {
+            margin: 10px 0; /* Margin for paragraphs */
+            font-size: 18px; /* Font size for text */
+        }
+
+        .result {
+            font-size: 24px; /* Larger font size for result */
+            margin-top: 20px; /* Space above result text */
+        }
+
+        .real {
+            color: green; /* Green for 'Real' */
+        }
+
+        .fake {
+            color: red; /* Red for 'Fake' */
+        }
+
+        .button {
+            display: inline-block; /* Inline block for button */
+            margin-top: 20px; /* Space above button */
+            padding: 10px 20px; /* Padding for button */
+            background-color: #007bff; /* Button color */
+            color: white; /* Button text color */
+            text-decoration: none; /* No underline */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Transition for hover */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker button color on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-video"></i> Detection Results</h1>
+        
+        <!-- Video Preview -->
+        <h2><i class="fas fa-play-circle"></i> Uploaded Video Preview:</h2>
+        <video controls width="640" height="360"> <!-- Set a specific width and height -->
+            <source src="{{ url_for('static', filename='uploads/' + filename) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <p><i class="fas fa-film"></i> Total Frames Processed: <strong>{{ frame_count }}</strong></p>
+        <p><i class="fas fa-times-circle"></i> Deepfake Frames Detected: <strong>{{ deepfake_count }}</strong></p>
+        <p><i class="fas fa-check-circle"></i> Real Frames Detected: <strong>{{ real_count }}</strong></p>
+
+        <!-- Displaying Classification Result -->
+        <p class="result {{ 'real' if classification_result == 'Real' else 'fake' }}">
+            <i class="fas {{ 'fa-check' if classification_result == 'Real' else 'fa-exclamation-triangle' }}"></i>
+            Classification: {{ classification_result }}
+        </p>
+
+        <a href="/" class="button"><i class="fas fa-upload"></i> Upload Another Video</a>
+    </div>
+</body>
+</html>
